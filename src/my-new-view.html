@@ -1,0 +1,58 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+
+
+<dom-module id="my-new-view">
+    <!-- Defines the element's style and local DOM -->
+    <template>
+        <style is="custom-style">
+            :host{
+                display: block;
+                padding:16px;
+            }
+            paper-slider{
+                --paper-slider-knob-color: var(--paper-red-500);
+                --paper-slider-active-color: var(--paper-red-500);
+            }
+            .caption {
+                padding-left: 12px;
+                color: #a0a0a0;
+            }
+            #grade {
+                --paper-slider-secondary-color: var(--paper-red-a200);
+            }
+        </style>
+        <h1>New View</h1>
+
+        <div>Brightness</div><br>
+        <paper-slider pin value="20"></paper-slider>
+        <div>Ratings: <span id="ratingsLabel" class="caption"></span></div><br>
+        <paper-slider id="ratings" pin snaps max="10" max-markers="10" step="1" value="5"></paper-slider>
+        <div>Grade: <span id="gradeLabel" class="caption"></span></div><br>
+        <paper-slider id="grade" pin value="20" secondary-progress="70"></paper-slider>
+
+
+    </template>
+    <!-- Creates the element's prototype and registers it -->
+    <script>
+        Polymer({
+           is:'my-new-view'
+        });
+    </script>
+
+    <script>
+        document.addEventListener('WebComponentsReady', function() {
+            var ratings = document.querySelector('#ratings');
+            ratings.addEventListener('change', function() {
+                document.querySelector('#ratingsLabel').textContent = ratings.value;
+            });
+
+            var grade = document.querySelector('#grade');
+            grade.addEventListener('change', function() {
+                var label = (grade.value < grade.secondaryProgress) ? "Fail" : "Pass" ;
+                document.querySelector('#gradeLabel').textContent = grade.value + " (" + label + ")";
+            });
+        });
+    </script>
+</dom-module>
+
